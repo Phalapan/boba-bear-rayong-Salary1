@@ -401,7 +401,9 @@ await ensureHeaders();
 }
 async function ensureHeaders(){
 // Events header
-const ev = await gFetch`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Events!A1`);
+const ev = await gFetch(
+  `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Events!A1`
+);
 if(!ev.values){
 await gFetch`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Events!A1?valueInputOption=RAW`,{
 method:'PUT', body:JSON.stringify({values:[['id','name','start','end','location','note','updatedAt']]})
