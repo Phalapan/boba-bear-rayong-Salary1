@@ -9,7 +9,6 @@
   --primary:#7C3AED;--primary-light:#EDE9FE;
   --income:#10B981;--income-light:#D1FAE5;
   --expense:#EF4444;--expense-light:#FEE2E2;
-  --ice:#3B82F6;--ice-light:#DBEAFE;
   --net:#3B82F6;--net-light:#DBEAFE;
   --bg:#F5F3FF;--card:#fff;--text:#1F2937;
   --muted:#6B7280;--border:#E5E7EB;--radius:14px;
@@ -62,13 +61,11 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
 .kpi-card{border-radius:12px;padding:14px;text-align:center}
 .kpi-card.income{background:var(--income-light)}
 .kpi-card.expense{background:var(--expense-light)}
-.kpi-card.ice{background:var(--ice-light)}
 .kpi-card.net{background:var(--net-light);grid-column:1/-1}
 .kpi-label{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px}
 .kpi-value{font-size:19px;font-weight:800}
 .kpi-card.income .kpi-value{color:var(--income)}
 .kpi-card.expense .kpi-value{color:var(--expense)}
-.kpi-card.ice .kpi-value{color:var(--ice)}
 .kpi-card.net .kpi-value{color:var(--net)}
 .event-item{border:1.5px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;background:#fff;transition:.2s}
 .event-item:hover{border-color:var(--primary)}
@@ -102,7 +99,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
 .modal-title{font-size:16px;font-weight:800;margin-bottom:16px;color:var(--primary);display:flex;align-items:center;gap:8px}
 .modal-close{margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}
 .filter-bar{display:flex;gap:8px;margin-bottom:13px;flex-wrap:wrap;align-items:center}
-.filter-bar select,.filter-bar input{padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;background:#fff;flex:1;min-width:100px}
+.filter-bar select{padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;background:#fff;flex:1;min-width:100px}
 .chart-wrap{position:relative;height:220px}
 .day-block{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
 .day-block-head{background:var(--primary-light);padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
@@ -135,8 +132,6 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
 .note-pill{display:inline-block;border-radius:10px;padding:2px 7px;font-size:10px;margin:2px 2px 0 0}
 .note-pill.inc{background:var(--income-light);color:var(--income)}
 .note-pill.exp{background:var(--expense-light);color:var(--expense)}
-.note-pill.ice{background:var(--ice-light);color:var(--ice)}
-/* detail dashboard */
 .detail-day-block{border:1.5px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden}
 .detail-day-head{background:linear-gradient(135deg,var(--primary),#5B21B6);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
 .detail-day-head .date-lbl{font-weight:800;font-size:13px}
@@ -151,10 +146,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
 .detail-row-amt{font-weight:800;white-space:nowrap;margin-left:8px}
 .detail-row-amt.inc{color:var(--income)}
 .detail-row-amt.exp{color:var(--expense)}
-.detail-row-amt.ice{color:var(--ice)}
 .detail-total-row{display:flex;justify-content:space-between;padding:8px 14px;font-size:12px;font-weight:700;background:#f9fafb}
-/* ice highlight */
-.ice-tag{display:inline-block;background:var(--ice-light);color:var(--ice);border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700;margin-left:4px}
 @media(max-width:360px){.kpi-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}.cat-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -196,7 +188,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
     <button class="nav-tab" data-page="record">✏️ บันทึก</button>
   </div>
 
-  <!-- ══ DASHBOARD ══ -->
+  <!-- DASHBOARD -->
   <div class="page active" id="page-dashboard">
     <div class="filter-bar" style="margin-top:8px">
       <select id="dash-type" onchange="onDashTypeChange()">
@@ -214,19 +206,15 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
       </select>
       <button class="btn btn-outline btn-sm" onclick="loadAllData()" style="white-space:nowrap">🔄</button>
     </div>
-
     <div class="kpi-grid">
       <div class="kpi-card income"><div class="kpi-label">💰 รายรับรวม</div><div class="kpi-value" id="k-income">฿0</div></div>
       <div class="kpi-card expense"><div class="kpi-label">💸 รายจ่ายรวม</div><div class="kpi-value" id="k-expense">฿0</div></div>
-      <div class="kpi-card ice" style="grid-column:unset"><div class="kpi-label">🧊 ค่าน้ำแข็ง</div><div class="kpi-value" id="k-ice">฿0</div></div>
       <div class="kpi-card net"><div class="kpi-label">📈 กำไรสุทธิ</div><div class="kpi-value" id="k-net">฿0</div></div>
     </div>
-
     <div class="card">
       <div class="card-title">📊 รายรับ-รายจ่าย</div>
       <div class="chart-wrap"><canvas id="dash-chart"></canvas></div>
     </div>
-
     <div class="card">
       <div class="card-title" style="color:var(--income)">💰 รายรับ แยกหมวดหมู่</div>
       <div class="cat-grid">
@@ -235,16 +223,14 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
       </div>
       <div id="inc-cat-table"></div>
     </div>
-
     <div class="card">
-      <div class="card-title" style="color:var(--expense)">💸 รายจ่าย แยกหมวดหมู่ <span class="ice-tag">🧊 แยกน้ำแข็ง</span></div>
+      <div class="card-title" style="color:var(--expense)">💸 รายจ่าย แยกหมวดหมู่</div>
       <div class="cat-grid">
         <div class="chart-wrap" style="height:180px"><canvas id="chart-exp-cat"></canvas></div>
         <div id="exp-cat-legend"></div>
       </div>
       <div id="exp-cat-table"></div>
     </div>
-
     <div class="card">
       <div class="card-title">📋 รายการล่าสุด</div>
       <div id="dash-list"></div>
@@ -252,7 +238,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
     <div class="sync-status" id="ss-dash"></div>
   </div>
 
-  <!-- ══ DETAIL DASHBOARD ══ -->
+  <!-- DETAIL -->
   <div class="page" id="page-detail">
     <div class="filter-bar" style="margin-top:8px">
       <select id="det-event" onchange="onDetEventChange()">
@@ -267,7 +253,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
     <div class="sync-status" id="ss-detail"></div>
   </div>
 
-  <!-- ══ EVENTS ══ -->
+  <!-- EVENTS -->
   <div class="page" id="page-events">
     <div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0 12px">
       <strong style="font-size:15px">🎪 งาน / Events</strong>
@@ -277,7 +263,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
     <div class="sync-status" id="ss-events"></div>
   </div>
 
-  <!-- ══ RECORD ══ -->
+  <!-- RECORD -->
   <div class="page" id="page-record">
     <div style="margin:4px 0 12px">
       <strong style="font-size:15px">✏️ บันทึกรายวัน</strong>
@@ -310,7 +296,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
         <div class="row2">
           <div class="form-row"><label>จำนวนเงิน (บาท)</label><input type="number" id="exp-amt" placeholder="0" min="0"/></div>
           <div class="form-row"><label>หมวดหมู่</label>
-            <select id="exp-cat"><option>ค่าวัตถุดิบ</option><option>ค่าน้ำแข็ง</option><option>ค่าเดินทาง</option><option>ค่าเช่าพื้นที่</option><option>ค่าบรรจุภัณฑ์</option><option>ค่าไฟ/น้ำ</option><option>อื่นๆ</option></select>
+            <select id="exp-cat"><option>ค่าวัตถุดิบ</option><option>ค่าเดินทาง</option><option>ค่าเช่าพื้นที่</option><option>ค่าบรรจุภัณฑ์</option><option>ค่าไฟ/น้ำ</option><option>อื่นๆ</option></select>
           </div>
         </div>
         <div class="form-row"><label>หมายเหตุ</label><input type="text" id="exp-note" placeholder="เช่น ซื้อชาไทย"/></div>
@@ -365,17 +351,11 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-// ════════════════════════════════
-// CONFIG
-// ════════════════════════════════
 const CLIENT_ID    = '287915428157-u1b12rguf2l7o4tmuku7g3jhmq5sdbat.apps.googleusercontent.com';
 const REDIRECT_URI = 'https://phalapan.github.io/boba-bear-rayong-Salary1/';
 const SCOPES       = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile';
 const SHEET_ID     = '1gqtRRYzw2hZteJBosRhqhdcq7M9YtsVesbQubzMy67w';
 
-// ════════════════════════════════
-// STATE
-// ════════════════════════════════
 let accessToken = null;
 let spreadsheetId = SHEET_ID;
 let events = [], records = [];
@@ -383,20 +363,14 @@ let dashChart=null, incCatChart=null, expCatChart=null;
 
 const COLORS_INC = ['#10B981','#34D399','#059669','#6EE7B7','#047857','#A7F3D0','#065F46','#BBF7D0'];
 const COLORS_EXP = ['#EF4444','#F87171','#DC2626','#FCA5A5','#B91C1C','#FECACA','#991B1B','#FEE2E2'];
-const COLOR_ICE  = '#3B82F6';
 
-// ════════════════════════════════
-// UTILS
-// ════════════════════════════════
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function fmt(n){ return '฿'+(n||0).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function today(){ return new Date().toISOString().slice(0,10); }
-function isIce(r){ return r.type==='expense' && (r.category||'').includes('น้ำแข็ง'); }
-
 function showToast(msg,ok=true){
   const t=document.getElementById('toast');
-  t.textContent=msg; t.style.background=ok?'#065F46':'#991B1B';
-  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800);
+  t.textContent=msg;t.style.background=ok?'#065F46':'#991B1B';
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);
 }
 function setSS(id,msg,cls=''){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.className='sync-status '+(cls||'');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
@@ -406,9 +380,7 @@ function hideLoading(){document.getElementById('loading-overlay').style.display=
 function showLogin(){document.getElementById('login-screen').style.display='flex';hideLoading();}
 function showApp(){document.getElementById('app-shell').style.display='block';document.getElementById('login-screen').style.display='none';hideLoading();}
 
-// ════════════════════════════════
 // OAUTH
-// ════════════════════════════════
 function buildAuthUrl(){
   return 'https://accounts.google.com/o/oauth2/v2/auth?'+new URLSearchParams({
     client_id:CLIENT_ID,redirect_uri:REDIRECT_URI,
@@ -441,9 +413,7 @@ function getSavedToken(){
   return token;
 }
 
-// ════════════════════════════════
 // API
-// ════════════════════════════════
 async function gFetch(url,options={}){
   const res=await fetch(url,{...options,headers:{'Authorization':'Bearer '+accessToken,'Content-Type':'application/json',...(options.headers||{})}});
   if(res.status===401){handleSignOut();throw new Error('Token หมดอายุ');}
@@ -470,10 +440,7 @@ async function loadAllData(){
     ]);
     events=(evRes.values||[]).filter(r=>r[0]).map(r=>({id:r[0],name:r[1],start:r[2],end:r[3],location:r[4]||'',note:r[5]||'',updatedAt:r[6]||''}));
     records=(recRes.values||[]).filter(r=>r[0]).map(r=>({id:r[0],eventId:r[1],type:r[2],amount:parseFloat(r[3])||0,category:r[4],note:r[5]||'',date:r[6],createdAt:r[7]||''}));
-    populateAllSelects();
-    renderEventList();
-    renderDashboard();
-    renderDetail();
+    populateAllSelects();renderEventList();renderDashboard();renderDetail();
     setSS('ss-dash','✅ โหลดแล้ว '+new Date().toLocaleTimeString('th-TH'),'ok');
   }catch(e){setSS('ss-dash','❌ '+e.message,'err');}
 }
@@ -496,9 +463,7 @@ async function deleteSheetRow(sheet,rowIdx){
   await gFetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`,{method:'POST',body:JSON.stringify({requests:[{deleteDimension:{range:{sheetId:sh.properties.sheetId,dimension:'ROWS',startIndex:rowIdx-1,endIndex:rowIdx}}}]})});
 }
 
-// ════════════════════════════════
 // NAV
-// ════════════════════════════════
 document.querySelectorAll('.nav-tab').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
@@ -512,36 +477,25 @@ document.querySelectorAll('.nav-tab').forEach(btn=>{
   });
 });
 
-// ════════════════════════════════
-// SELECTS POPULATE
-// ════════════════════════════════
+// SELECTS
 function populateAllSelects(){
   const sorted=[...events].sort((a,b)=>b.start.localeCompare(a.start));
-
-  // rec-event
   const recSel=document.getElementById('rec-event');
   const recCur=recSel.value;
   recSel.innerHTML='<option value="">-- เลือก Event --</option>';
   sorted.forEach(ev=>recSel.innerHTML+=`<option value="${ev.id}">${ev.name} (${ev.start})</option>`);
   if(recCur)recSel.value=recCur;
-
-  // dash-event
   const dashEv=document.getElementById('dash-event');
   dashEv.innerHTML='<option value="">-- ทั้งหมด --</option>';
   sorted.forEach(ev=>dashEv.innerHTML+=`<option value="${ev.id}">${ev.name}</option>`);
-
-  // det-event
   const detEv=document.getElementById('det-event');
   const detCur=detEv.value;
   detEv.innerHTML='<option value="">-- ทุก Event --</option>';
   sorted.forEach(ev=>detEv.innerHTML+=`<option value="${ev.id}">${ev.name}</option>`);
   if(detCur)detEv.value=detCur;
-
-  // dash-day filter
   initDashDayFilter();
   initDashMonthFilter();
 }
-
 function initDashDayFilter(){
   const sel=document.getElementById('dash-day');
   const cur=sel.value;
@@ -550,7 +504,6 @@ function initDashDayFilter(){
   sel.innerHTML=days.map(d=>`<option value="${d}">${d}</option>`).join('');
   if(cur&&days.includes(cur))sel.value=cur;
 }
-
 function initDashMonthFilter(){
   const sel=document.getElementById('dash-month');
   const cur=sel.value;
@@ -560,26 +513,22 @@ function initDashMonthFilter(){
   sel.innerHTML=months.map(m=>`<option value="${m}">${m}</option>`).join('');
   if(cur&&months.includes(cur))sel.value=cur;
 }
-
-function populateDashEventDayFilter(eventId){
+function populateDashEventDayFilter(evId){
   const sel=document.getElementById('dash-event-day');
-  const recs=eventId?records.filter(r=>r.eventId===eventId):records;
+  const recs=evId?records.filter(r=>r.eventId===evId):records;
   const days=[...new Set(recs.map(r=>r.date))].sort().reverse();
   sel.innerHTML='<option value="">-- ทุกวัน --</option>';
   days.forEach(d=>sel.innerHTML+=`<option value="${d}">${d}</option>`);
 }
-
-function populateDetDayFilter(eventId){
+function populateDetDayFilter(evId){
   const sel=document.getElementById('det-day');
-  const recs=eventId?records.filter(r=>r.eventId===eventId):records;
+  const recs=evId?records.filter(r=>r.eventId===evId):records;
   const days=[...new Set(recs.map(r=>r.date))].sort().reverse();
   sel.innerHTML='<option value="">-- ทุกวัน --</option>';
   days.forEach(d=>sel.innerHTML+=`<option value="${d}">${d}</option>`);
 }
 
-// ════════════════════════════════
-// DASHBOARD FILTER LOGIC
-// ════════════════════════════════
+// DASHBOARD FILTER
 function onDashTypeChange(){
   const type=document.getElementById('dash-type').value;
   document.getElementById('dash-day').style.display=type==='day'?'block':'none';
@@ -588,33 +537,29 @@ function onDashTypeChange(){
   document.getElementById('dash-event-day').style.display=type==='event'?'block':'none';
   renderDashboard();
 }
-
 function onDashEventChange(){
   const evId=document.getElementById('dash-event').value;
   populateDashEventDayFilter(evId);
   renderDashboard();
 }
-
 function getFilteredRecords(){
   const type=document.getElementById('dash-type').value;
   if(type==='day'){
     const day=document.getElementById('dash-day').value||today();
     return records.filter(r=>r.date===day);
-  } else if(type==='month'){
+  }else if(type==='month'){
     const month=document.getElementById('dash-month').value||today().slice(0,7);
     return records.filter(r=>r.date.startsWith(month));
-  } else {
+  }else{
     const evId=document.getElementById('dash-event').value;
     const day=document.getElementById('dash-event-day').value;
-    let filtered=evId?records.filter(r=>r.eventId===evId):[...records];
-    if(day)filtered=filtered.filter(r=>r.date===day);
-    return filtered;
+    let f=evId?records.filter(r=>r.eventId===evId):[...records];
+    if(day)f=f.filter(r=>r.date===day);
+    return f;
   }
 }
 
-// ════════════════════════════════
 // DASHBOARD RENDER
-// ════════════════════════════════
 function groupByCategory(recs){
   const map={};
   recs.forEach(r=>{
@@ -625,57 +570,36 @@ function groupByCategory(recs){
   });
   return Object.values(map).sort((a,b)=>b.total-a.total);
 }
-
-// แยกน้ำแข็งออกจากรายจ่าย
-function splitIceFromExpense(expRecs){
-  const iceRecs=expRecs.filter(r=>isIce(r));
-  const normalRecs=expRecs.filter(r=>!isIce(r));
-  return {iceRecs,normalRecs};
-}
-
 function renderCatChart(canvasId,catData,colors){
   const ctx=document.getElementById(canvasId)?.getContext('2d');
   if(!ctx)return null;
   return new Chart(ctx,{
     type:'doughnut',
-    data:{
-      labels:catData.map(d=>d.cat),
-      datasets:[{data:catData.map(d=>d.total),backgroundColor:colors.slice(0,catData.length),borderWidth:2,borderColor:'#fff'}]
-    },
+    data:{labels:catData.map(d=>d.cat),datasets:[{data:catData.map(d=>d.total),backgroundColor:colors.slice(0,catData.length),borderWidth:2,borderColor:'#fff'}]},
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},
-        tooltip:{callbacks:{label:c=>{
-          const total=catData.reduce((s,d)=>s+d.total,0);
-          return ` ${fmt(c.raw)} (${total?Math.round(c.raw/total*100):0}%)`;
-        }}}
-      }
-    }
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
+        const total=catData.reduce((s,d)=>s+d.total,0);
+        return ` ${fmt(c.raw)} (${total?Math.round(c.raw/total*100):0}%)`;
+      }}}}}
   });
 }
-
 function renderCatLegend(containerId,catData,colors){
   const total=catData.reduce((s,d)=>s+d.total,0);
   document.getElementById(containerId).innerHTML=catData.map((d,i)=>`
     <div class="cat-legend-item">
       <div class="cat-dot" style="background:${colors[i%colors.length]}"></div>
-      <div>
-        <div class="cat-legend-label">${d.cat}</div>
-        <div class="cat-legend-val">${fmt(d.total)} · ${total?Math.round(d.total/total*100):0}%</div>
-      </div>
+      <div><div class="cat-legend-label">${d.cat}</div>
+      <div class="cat-legend-val">${fmt(d.total)} · ${total?Math.round(d.total/total*100):0}%</div></div>
     </div>`).join('');
 }
-
 function renderCatTable(containerId,catData,cssType){
   if(!catData.length){document.getElementById(containerId).innerHTML='';return;}
   const total=catData.reduce((s,d)=>s+d.total,0);
   const rows=catData.map(d=>{
     const pills=d.notes.map(n=>`<span class="note-pill ${cssType}">${n}</span>`).join('');
     const pct=total?Math.round(d.total/total*100):0;
-    const isIceCat=d.cat.includes('น้ำแข็ง');
-    return `<tr${isIceCat?' style="background:var(--ice-light)"':''}>
-      <td><div style="font-weight:700">${d.cat}${isIceCat?' <span class="ice-tag">🧊</span>':''}</div>${pills?`<div style="margin-top:3px">${pills}</div>`:''}</td>
-      <td><div>${fmt(d.total)}</div><div style="font-size:10px;color:var(--muted)">${pct}%</div></td>
-    </tr>`;
+    return `<tr><td><div style="font-weight:700">${d.cat}</div>${pills?`<div style="margin-top:3px">${pills}</div>`:''}</td>
+      <td><div>${fmt(d.total)}</div><div style="font-size:10px;color:var(--muted)">${pct}%</div></td></tr>`;
   }).join('');
   document.getElementById(containerId).innerHTML=`
     <table class="cat-table">
@@ -684,33 +608,25 @@ function renderCatTable(containerId,catData,cssType){
       <tfoot><tr style="background:var(--primary-light)"><td style="font-weight:800;color:var(--primary)">รวม</td><td style="font-weight:800;color:var(--primary);text-align:right">${fmt(total)}</td></tr></tfoot>
     </table>`;
 }
-
 function renderDashboard(){
-  initDashDayFilter();
-  initDashMonthFilter();
+  initDashDayFilter(); initDashMonthFilter();
   const type=document.getElementById('dash-type').value;
   document.getElementById('dash-day').style.display=type==='day'?'block':'none';
   document.getElementById('dash-month').style.display=type==='month'?'block':'none';
   document.getElementById('dash-event').style.display=type==='event'?'block':'none';
   document.getElementById('dash-event-day').style.display=type==='event'?'block':'none';
-
   const filtered=getFilteredRecords();
   const ti=filtered.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0);
   const te=filtered.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
-  const tice=filtered.filter(r=>isIce(r)).reduce((s,r)=>s+r.amount,0);
   const net=ti-te;
   document.getElementById('k-income').textContent=fmt(ti);
   document.getElementById('k-expense').textContent=fmt(te);
-  document.getElementById('k-ice').textContent=fmt(tice);
   document.getElementById('k-net').textContent=fmt(net);
   document.getElementById('k-net').style.color=net>=0?'var(--net)':'var(--expense)';
-
-  // กราฟ bar
+  // Bar chart
   const days={};
-  filtered.forEach(r=>{if(!days[r.date])days[r.date]={inc:0,exp:0,ice:0};
-    if(r.type==='income')days[r.date].inc+=r.amount;
-    else if(isIce(r))days[r.date].ice+=r.amount;
-    else days[r.date].exp+=r.amount;
+  filtered.forEach(r=>{if(!days[r.date])days[r.date]={inc:0,exp:0};
+    if(r.type==='income')days[r.date].inc+=r.amount;else days[r.date].exp+=r.amount;
   });
   const labels=Object.keys(days).sort();
   const ctx=document.getElementById('dash-chart').getContext('2d');
@@ -720,194 +636,109 @@ function renderDashboard(){
       type:'bar',
       data:{labels:labels.map(l=>l.slice(5)),datasets:[
         {label:'รายรับ',data:labels.map(d=>days[d].inc),backgroundColor:'rgba(16,185,129,.75)',borderRadius:6},
-        {label:'รายจ่าย',data:labels.map(d=>days[d].exp),backgroundColor:'rgba(239,68,68,.75)',borderRadius:6},
-        {label:'🧊 น้ำแข็ง',data:labels.map(d=>days[d].ice),backgroundColor:'rgba(59,130,246,.75)',borderRadius:6}
+        {label:'รายจ่าย',data:labels.map(d=>days[d].exp),backgroundColor:'rgba(239,68,68,.75)',borderRadius:6}
       ]},
       options:{responsive:true,maintainAspectRatio:false,
         plugins:{legend:{position:'top',labels:{font:{size:10}}},tooltip:{callbacks:{label:c=>fmt(c.raw)}}},
         scales:{y:{ticks:{callback:v=>'฿'+v.toLocaleString()},grid:{color:'rgba(0,0,0,.05)'}}}}
     });
   }
-
-  // รายรับ หมวดหมู่
-  const incRecs=filtered.filter(r=>r.type==='income');
-  const incCat=groupByCategory(incRecs);
+  // Doughnut charts
+  const incCat=groupByCategory(filtered.filter(r=>r.type==='income'));
+  const expCat=groupByCategory(filtered.filter(r=>r.type==='expense'));
   if(incCatChart){incCatChart.destroy();incCatChart=null;}
-  if(incCat.length){
-    incCatChart=renderCatChart('chart-inc-cat',incCat,COLORS_INC);
-    renderCatLegend('inc-cat-legend',incCat,COLORS_INC);
-    renderCatTable('inc-cat-table',incCat,'inc');
-  }else{
-    document.getElementById('inc-cat-legend').innerHTML='<div class="empty" style="padding:10px"><p>ไม่มีข้อมูล</p></div>';
-    document.getElementById('inc-cat-table').innerHTML='';
-  }
-
-  // รายจ่าย — แยกน้ำแข็งออก
-  const expRecs=filtered.filter(r=>r.type==='expense');
-  const {iceRecs,normalRecs}=splitIceFromExpense(expRecs);
-  // รวมน้ำแข็งเป็น 1 กลุ่มพิเศษ
-  const iceCatGroup=iceRecs.length?[{cat:'🧊 ค่าน้ำแข็ง',total:iceRecs.reduce((s,r)=>s+r.amount,0),notes:[...new Set(iceRecs.map(r=>r.note).filter(Boolean))]}]:[];
-  const normalCat=groupByCategory(normalRecs);
-  const expCat=[...normalCat,...iceCatGroup];
-  const expColors=[...COLORS_EXP.slice(0,normalCat.length),COLOR_ICE];
-
   if(expCatChart){expCatChart.destroy();expCatChart=null;}
-  if(expCat.length){
-    expCatChart=renderCatChart('chart-exp-cat',expCat,expColors);
-    renderCatLegend('exp-cat-legend',expCat,expColors);
-    renderCatTable('exp-cat-table',expCat,'exp');
-  }else{
-    document.getElementById('exp-cat-legend').innerHTML='<div class="empty" style="padding:10px"><p>ไม่มีข้อมูล</p></div>';
-    document.getElementById('exp-cat-table').innerHTML='';
-  }
-
-  // รายการล่าสุด
+  if(incCat.length){incCatChart=renderCatChart('chart-inc-cat',incCat,COLORS_INC);renderCatLegend('inc-cat-legend',incCat,COLORS_INC);renderCatTable('inc-cat-table',incCat,'inc');}
+  else{document.getElementById('inc-cat-legend').innerHTML='<div class="empty" style="padding:10px"><p>ไม่มีข้อมูล</p></div>';document.getElementById('inc-cat-table').innerHTML='';}
+  if(expCat.length){expCatChart=renderCatChart('chart-exp-cat',expCat,COLORS_EXP);renderCatLegend('exp-cat-legend',expCat,COLORS_EXP);renderCatTable('exp-cat-table',expCat,'exp');}
+  else{document.getElementById('exp-cat-legend').innerHTML='<div class="empty" style="padding:10px"><p>ไม่มีข้อมูล</p></div>';document.getElementById('exp-cat-table').innerHTML='';}
+  // List
   const list=document.getElementById('dash-list');
   if(!filtered.length){list.innerHTML='<div class="empty"><div class="icon">📭</div><p>ไม่มีข้อมูล</p></div>';return;}
   list.innerHTML=[...filtered].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,30)
-    .map(r=>`<div class="record-item">
-      <div style="flex:1">
-        <div class="record-label">${r.type==='income'?'💰':isIce(r)?'🧊':'💸'} ${r.category}</div>
-        <div class="record-date">${r.date}</div>
-        ${r.note?`<div class="record-note">📝 ${r.note}</div>`:''}
-      </div>
-      <span class="record-amount ${r.type}" style="${isIce(r)?'color:var(--ice)':''}">${r.type==='income'?'+':'-'}${fmt(r.amount)}</span>
-    </div>`).join('');
+    .map(r=>`<div class="record-item"><div style="flex:1">
+      <div class="record-label">${r.type==='income'?'💰':'💸'} ${r.category}</div>
+      <div class="record-date">${r.date}</div>
+      ${r.note?`<div class="record-note">📝 ${r.note}</div>`:''}
+    </div><span class="record-amount ${r.type}">${r.type==='income'?'+':'-'}${fmt(r.amount)}</span></div>`).join('');
 }
 
-// ════════════════════════════════
-// DETAIL DASHBOARD
-// ════════════════════════════════
+// DETAIL
 function onDetEventChange(){
   const evId=document.getElementById('det-event').value;
   populateDetDayFilter(evId);
   renderDetail();
 }
-
 function renderDetail(){
   const evId=document.getElementById('det-event').value;
   const day=document.getElementById('det-day').value;
   let filtered=evId?records.filter(r=>r.eventId===evId):[...records];
   if(day)filtered=filtered.filter(r=>r.date===day);
-
   const container=document.getElementById('detail-container');
   if(!filtered.length){container.innerHTML='<div class="empty"><div class="icon">📋</div><p>ไม่มีข้อมูล</p></div>';return;}
-
-  // Group by date
   const byDate={};
   filtered.forEach(r=>{if(!byDate[r.date])byDate[r.date]=[];byDate[r.date].push(r);});
   const dates=Object.keys(byDate).sort().reverse();
-
-  // รวมทั้งหมด
   const totalInc=filtered.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0);
   const totalExp=filtered.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
-  const totalIce=filtered.filter(r=>isIce(r)).reduce((s,r)=>s+r.amount,0);
   const totalNet=totalInc-totalExp;
-
-  // Summary card
   let html=`<div class="card" style="background:linear-gradient(135deg,#7C3AED,#5B21B6);color:#fff">
     <div style="font-size:13px;font-weight:800;margin-bottom:10px">📊 สรุปรวม${evId?' — '+events.find(e=>e.id===evId)?.name:' — ทุก Event'}${day?' | '+day:''}</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
       <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px;text-align:center">
         <div style="font-size:10px;opacity:.8">💰 รายรับ</div>
-        <div style="font-size:16px;font-weight:800">${fmt(totalInc)}</div>
+        <div style="font-size:15px;font-weight:800">${fmt(totalInc)}</div>
       </div>
       <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px;text-align:center">
         <div style="font-size:10px;opacity:.8">💸 รายจ่าย</div>
-        <div style="font-size:16px;font-weight:800">${fmt(totalExp)}</div>
-      </div>
-      <div style="background:rgba(59,130,246,.4);border-radius:10px;padding:10px;text-align:center">
-        <div style="font-size:10px;opacity:.8">🧊 น้ำแข็ง</div>
-        <div style="font-size:16px;font-weight:800">${fmt(totalIce)}</div>
+        <div style="font-size:15px;font-weight:800">${fmt(totalExp)}</div>
       </div>
       <div style="background:rgba(255,255,255,.25);border-radius:10px;padding:10px;text-align:center">
-        <div style="font-size:10px;opacity:.8">📈 กำไรสุทธิ</div>
-        <div style="font-size:16px;font-weight:800">${fmt(totalNet)}</div>
+        <div style="font-size:10px;opacity:.8">📈 กำไร</div>
+        <div style="font-size:15px;font-weight:800">${fmt(totalNet)}</div>
       </div>
     </div>
   </div>`;
-
-  // แต่ละวัน
   dates.forEach(date=>{
     const dayRecs=byDate[date];
     const dInc=dayRecs.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0);
     const dExp=dayRecs.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
     const dNet=dInc-dExp;
     const eventName=events.find(e=>e.id===dayRecs[0]?.eventId)?.name||'';
-
-    // แยก income / expense / ice
-    const incRecs=dayRecs.filter(r=>r.type==='income');
-    const expRecsDay=dayRecs.filter(r=>r.type==='expense'&&!isIce(r));
-    const iceRecsDay=dayRecs.filter(r=>isIce(r));
-
-    // group by category
-    const incCatDay=groupByCategory(incRecs);
-    const expCatDay=groupByCategory(expRecsDay);
-    const iceCatDay=groupByCategory(iceRecsDay);
-
+    const incCatDay=groupByCategory(dayRecs.filter(r=>r.type==='income'));
+    const expCatDay=groupByCategory(dayRecs.filter(r=>r.type==='expense'));
     html+=`<div class="detail-day-block">
       <div class="detail-day-head">
-        <div>
-          <div class="date-lbl">📅 ${date}</div>
-          ${eventName?`<div style="font-size:10px;opacity:.8">🎪 ${eventName}</div>`:''}
-        </div>
+        <div><div class="date-lbl">📅 ${date}</div>${eventName?`<div style="font-size:10px;opacity:.8">🎪 ${eventName}</div>`:''}</div>
         <div class="day-net">กำไร: ${fmt(dNet)}</div>
       </div>`;
-
-    // รายรับ
     if(incCatDay.length){
       html+=`<div class="detail-section">
         <div class="detail-section-title" style="color:var(--income)">💰 รายรับ — ${fmt(dInc)}</div>
         ${incCatDay.map(d=>`<div class="detail-row">
-          <div style="flex:1">
-            <div class="detail-row-cat">${d.cat}</div>
-            ${d.notes.length?`<div class="detail-row-note">📝 ${d.notes.join(', ')}</div>`:''}
-          </div>
+          <div style="flex:1"><div class="detail-row-cat">${d.cat}</div>${d.notes.length?`<div class="detail-row-note">📝 ${d.notes.join(', ')}</div>`:''}</div>
           <div class="detail-row-amt inc">${fmt(d.total)}</div>
         </div>`).join('')}
       </div>`;
     }
-
-    // รายจ่าย (ไม่รวมน้ำแข็ง)
     if(expCatDay.length){
       html+=`<div class="detail-section">
-        <div class="detail-section-title" style="color:var(--expense)">💸 รายจ่าย — ${fmt(expRecsDay.reduce((s,r)=>s+r.amount,0))}</div>
+        <div class="detail-section-title" style="color:var(--expense)">💸 รายจ่าย — ${fmt(dExp)}</div>
         ${expCatDay.map(d=>`<div class="detail-row">
-          <div style="flex:1">
-            <div class="detail-row-cat">${d.cat}</div>
-            ${d.notes.length?`<div class="detail-row-note">📝 ${d.notes.join(', ')}</div>`:''}
-          </div>
+          <div style="flex:1"><div class="detail-row-cat">${d.cat}</div>${d.notes.length?`<div class="detail-row-note">📝 ${d.notes.join(', ')}</div>`:''}</div>
           <div class="detail-row-amt exp">${fmt(d.total)}</div>
         </div>`).join('')}
       </div>`;
     }
-
-    // น้ำแข็ง (แยกต่างหาก)
-    if(iceCatDay.length){
-      html+=`<div class="detail-section" style="background:var(--ice-light)">
-        <div class="detail-section-title" style="color:var(--ice)">🧊 ค่าน้ำแข็ง — ${fmt(iceRecsDay.reduce((s,r)=>s+r.amount,0))}</div>
-        ${iceCatDay.map(d=>`<div class="detail-row">
-          <div style="flex:1">
-            <div class="detail-row-cat">${d.cat}</div>
-            ${d.notes.length?`<div class="detail-row-note">📝 ${d.notes.join(', ')}</div>`:''}
-          </div>
-          <div class="detail-row-amt ice">${fmt(d.total)}</div>
-        </div>`).join('')}
-      </div>`;
-    }
-
     html+=`<div class="detail-total-row">
       <span>💰 ${fmt(dInc)} &nbsp;|&nbsp; 💸 ${fmt(dExp)}</span>
       <span style="color:${dNet>=0?'var(--income)':'var(--expense)'};font-weight:800">กำไร ${fmt(dNet)}</span>
     </div></div>`;
   });
-
   container.innerHTML=html;
 }
 
-// ════════════════════════════════
 // EVENTS CRUD
-// ════════════════════════════════
 function openNewEventModal(){
   document.getElementById('ev-id').value='';
   document.getElementById('modal-ev-title').textContent='เพิ่มงานใหม่';
@@ -998,7 +829,7 @@ function showEventDetail(id){
     const di=dr.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0);
     const de=dr.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
     html+=`<div class="day-block"><div class="day-block-head"><span class="dl">📅 ${date}</span><span>+${fmt(di)} / -${fmt(de)}</span></div><div class="day-block-body">
-      ${dr.map(r=>`<div class="record-item"><div><div class="record-label">${r.type==='income'?'💰':isIce(r)?'🧊':'💸'} ${r.category}</div>${r.note?`<div class="record-note">📝 ${r.note}</div>`:''}</div><div style="display:flex;align-items:center;gap:6px"><span class="record-amount ${r.type}" style="${isIce(r)?'color:var(--ice)':''}">${r.type==='income'?'+':'-'}${fmt(r.amount)}</span><button class="btn-danger-sm" onclick="deleteRecordFromDetail('${r.id}','${id}')">×</button></div></div>`).join('')}
+      ${dr.map(r=>`<div class="record-item"><div><div class="record-label">${r.type==='income'?'💰':'💸'} ${r.category}</div>${r.note?`<div class="record-note">📝 ${r.note}</div>`:''}</div><div style="display:flex;align-items:center;gap:6px"><span class="record-amount ${r.type}">${r.type==='income'?'+':'-'}${fmt(r.amount)}</span><button class="btn-danger-sm" onclick="deleteRecordFromDetail('${r.id}','${id}')">×</button></div></div>`).join('')}
     </div></div>`;
   });
   html+=`<div style="background:var(--primary-light);border-radius:10px;padding:12px;margin-top:10px">
@@ -1011,9 +842,7 @@ function showEventDetail(id){
   openModal('modal-detail');
 }
 
-// ════════════════════════════════
 // RECORDS CRUD
-// ════════════════════════════════
 function initRecordPage(){populateAllSelects();renderDailyRecords();}
 function onRecordEventChange(){
   const id=document.getElementById('rec-event').value;
@@ -1032,7 +861,7 @@ function renderDailyRecords(){
   const recs=records.filter(r=>r.eventId===eventId&&r.date===date);
   const list=document.getElementById('daily-list');
   list.innerHTML=recs.length
-    ?recs.map(r=>`<div class="record-item"><div><div class="record-label">${r.type==='income'?'💰':isIce(r)?'🧊':'💸'} ${r.category}</div>${r.note?`<div class="record-note">📝 ${r.note}</div>`:''}</div><div style="display:flex;align-items:center;gap:6px"><span class="record-amount ${r.type}" style="${isIce(r)?'color:var(--ice)':''}">${r.type==='income'?'+':'-'}${fmt(r.amount)}</span><button class="btn-danger-sm" onclick="deleteRecord('${r.id}')">×</button></div></div>`).join('')
+    ?recs.map(r=>`<div class="record-item"><div><div class="record-label">${r.type==='income'?'💰':'💸'} ${r.category}</div>${r.note?`<div class="record-note">📝 ${r.note}</div>`:''}</div><div style="display:flex;align-items:center;gap:6px"><span class="record-amount ${r.type}">${r.type==='income'?'+':'-'}${fmt(r.amount)}</span><button class="btn-danger-sm" onclick="deleteRecord('${r.id}')">×</button></div></div>`).join('')
     :'<div class="empty" style="padding:14px"><p>ยังไม่มีรายการ</p></div>';
   const ti=recs.filter(r=>r.type==='income').reduce((s,r)=>s+r.amount,0);
   const te=recs.filter(r=>r.type==='expense').reduce((s,r)=>s+r.amount,0);
@@ -1075,9 +904,7 @@ async function deleteRecord(id){
 }
 async function deleteRecordFromDetail(id,eventId){await deleteRecord(id);showEventDetail(eventId);}
 
-// ════════════════════════════════
 // BOOT
-// ════════════════════════════════
 async function boot(){
   showLoading('กำลังตรวจสอบการเข้าสู่ระบบ...');
   let token=parseTokenFromHash();
@@ -1096,9 +923,7 @@ async function boot(){
 let resizeTimer;
 window.addEventListener('resize',()=>{
   clearTimeout(resizeTimer);
-  resizeTimer=setTimeout(()=>{
-    if(document.getElementById('page-dashboard').classList.contains('active'))renderDashboard();
-  },150);
+  resizeTimer=setTimeout(()=>{if(document.getElementById('page-dashboard').classList.contains('active'))renderDashboard();},150);
 });
 
 boot();
