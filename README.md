@@ -291,7 +291,7 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--t
 // CONFIG
 // ══════════════════════════════════════
 const CLIENT_ID    = '287915428157-u1b12rguf2l7o4tmuku7g3jhmq5sdbat.apps.googleusercontent.com';
-const REDIRECT_URI = 'https://phalapan.github.io/boba-bear-rayong/';
+const REDIRECT_URI = 'https://phalapan.github.io/boba-bear-rayong-Salary1/';
 const SCOPES       = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile';
 const SHEET_TITLE  = 'Boba Bear Rayong';
 
